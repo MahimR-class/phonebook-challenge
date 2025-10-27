@@ -187,3 +187,35 @@ select {
   line-height: 1.15;
   margin: 0 0 .25rem;
 }
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.pagination__controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.pagination .btn--active {
+    background: #ffffff;
+    color: #000;
+    border-color: #000;
+}
+
+.pagination__size {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.pagination select {
+    min-width: 72px;
+}

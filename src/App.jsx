@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
+import Pagination from "./components/Pagination";
 
 const avatars = import.meta.glob("./assets/avatars/*", { eager: true, as: "url" });
 const avatarUrl = (photo) => {
   if (!photo) return "";
-  // allow "ada.jpg" or "/avatars/ada.jpg"
   const filename = photo.startsWith("/") ? photo.split("/").pop() : photo;
   const key = `./assets/avatars/${filename}`;
   return avatars[key] || "";
 }
-
-
 
 const FALLBACK_CONTACTS = [
     {
@@ -89,6 +87,8 @@ const App = () => {
   const [contacts] = useState(FALLBACK_CONTACTS);
   const [query, setQuery] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", email: "" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(1);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -99,6 +99,23 @@ const App = () => {
         c.phone.toLowerCase().includes(q)
     );
   }, [contacts, query]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+
+  useEffect(() => {
+    // if filtering reduces pages, clamp current page
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
+
+  useEffect(() => {
+    // reset to first page when search query changes
+    setCurrentPage(1);
+  }, [query]);
+
+  const paginated = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, currentPage, pageSize]);
 
   function handleSubmit(e) {
     e.preventDefault(); 
@@ -139,38 +156,40 @@ const App = () => {
       <section className="contacts" aria-labelledby="contacts-heading">
         <h2 id="contacts-heading">All The Weird Contacts</h2>
         <ul className="contacts__list">
-          {filtered.map((c) => (
-            <li key={c.id} className="contacts__item">
-              <article className="contact-card">
-                <img
-                  className="contact-card__avatar"
-                  src={avatarUrl(c.photo)}
-                  alt={`Portrait of ${c.name}`}
-                  width="100"
-                  height="100"
-                  loading="lazy"
-                />
+          {contacts.map((contact, index) => {
+            // Use the provided loop style but only render the contact for the current page
+            if (index !== currentPage - 1) return null;
 
-
-
-
-                <div className="contact-card__body">
-                  <h3 className="contact-card__name">{c.name}</h3>
-                  <p className="contact-card__phone">
-                    <a href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}>{c.phone}</a>
-                  </p>
-                  <p className="contact-card__email">
-                    <a href={`mailto:${c.email}`}>{c.email}</a>
-                  </p>
+            return (
+              <li key={contact.id} className="contacts__item">
+                <div className="contact-card contact--batman">
+                  <img
+                    className="contact-card__avatar"
+                    src={avatarUrl(contact.photo)}
+                    alt={contact.name}
+                  />
+                  <div className="contact-card__body">
+                    <h3 className="contact-card__name">{contact.name}</h3>
+                    <p className="contact-card__phone">{contact.phone}</p>
+                    <p className="contact-card__email">{contact.email}</p>
+                  </div>
                 </div>
-              </article>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
-      </section>
 
-      <section className="form" aria-labelledby="form-heading">
-        <h2 id="form-heading">Add a Contact</h2>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          hidePageSize={true}
+          onPageChange={(p) => setCurrentPage(p)}
+          onPageSizeChange={(s) => {
+            setPageSize(s);
+            setCurrentPage(1);
+          }}
+        />
         <form className="form__body" onSubmit={handleSubmit} noValidate>
           <div className="field">
             <label htmlFor="name">Name</label>
