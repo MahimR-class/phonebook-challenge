@@ -1,5 +1,38 @@
+@font-face {
+  font-family: "Agmena";
+  src: url("./assets/fonts/Agmena/Agmena-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Agmena";
+  src: url("./assets/fonts/Agmena/Agmena-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Agmena";
+  src: url("./assets/fonts/Agmena/Agmena-Semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Agmena";
+  src: url("./assets/fonts/Agmena/Agmena-SemiboldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root{
+  --font-body: "Agmena", Georgia, Cambria, "Times New Roman", serif;
+  --font-heading: "Agmena", Georgia, Cambria, "Times New Roman", serif;
+}
+
 :root {
-  /* Light theme colors */
   --bg: #f8fafc;
   --fg: #000000;
   --muted: #9aa0a6;
@@ -9,7 +42,6 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    /* Dark theme colors for media query */
     --bg: #ffffff;
     --fg: #1d1d1f;
     --muted: #6e6e73;
@@ -55,6 +87,37 @@ input,
 select {
     font: inherit;
     color: inherit;
+}
+
+body{
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--fg);
+  background: var(--bg);
+}
+
+h1, h2, h3, .page__title, .contact-card__name{
+  font-family: var(--font-heading);
+  font-weight: 600; 
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("./assets/theme/bg.jpg") center / cover no-repeat;
+  background-color: rgba(0, 0, 0, 0.35);
+  background-blend-mode: multiply;
+}
+
+html, body {
+  color: #ffc400; 
+}
+
+:where(.card, .contact, .contact-card, .list > li, .contacts > li):hover {
+  background: var(--glass-hover);
+  border-color: rgba(255,255,255,0.28);
 }
 
 
