@@ -8,7 +8,7 @@
     display: grid;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
-    text-align: left;
+    text-align: center;
 }
 
 .page__title {
@@ -137,4 +137,53 @@ select {
     .search__controls {
         grid-template-columns: 1fr 1fr;
     }
+}
+
+
+.page__title{
+  font-family: var(--font-heading);  
+  font-weight: 2000;
+  font-size: clamp(2.25rem, 1.25rem + 3vw, 4.25rem); 
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 .25rem;
+}
+
+.contacts__item,
+.contact-card {
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,0.22);
+  box-shadow: none;
+}
+
+.contact-card{
+  display: grid;
+  grid-template-columns: 160px 1fr;   
+  gap: 1rem;
+  align-items: center;
+}
+
+.contact-card__avatar{
+  width: 160px;       
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  grid-column: 1;
+}
+
+.contact-card__body{
+  grid-column: 2;
+}
+
+@media (max-width: 600px){
+  .contact-card{ grid-template-columns: 96px 1fr; }
+  .contact-card__avatar{ width: 96px; height: 96px; }
+}
+
+.contact-card__name{
+  font-family: var(--font-heading);  
+  font-size: clamp(1.25rem, 1rem + 0.9vw, 1.9rem);  
+  font-weight: 1000;                  
+  line-height: 1.15;
+  margin: 0 0 .25rem;
 }

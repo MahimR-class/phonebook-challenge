@@ -1,76 +1,87 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
+const avatars = import.meta.glob("./assets/avatars/*", { eager: true, as: "url" });
+const avatarUrl = (photo) => {
+  if (!photo) return "";
+  // allow "ada.jpg" or "/avatars/ada.jpg"
+  const filename = photo.startsWith("/") ? photo.split("/").pop() : photo;
+  const key = `./assets/avatars/${filename}`;
+  return avatars[key] || "";
+}
+
+
+
 const FALLBACK_CONTACTS = [
     {
      id: 101,
      name: "Ada Lovelace",
      phone: "(555) 010-0101",
      email: "ada@example.com",
-     photo: "/avatars/ada.jpg"
+     photo: "ada.jpg"
    },
    {
      id: 102,
      name: "Alan Turing",
      phone: "(555) 010-0102",
      email: "alan@example.com",
-     photo: "/avatars/alan.jpg"
+     photo: "alan.jpg"
    },
    {
      id: 103,
      name: "Grace Hopper",
      phone: "(555) 010-0103",
      email: "grace@example.com",
-     photo: "/avatars/grace.jpg"
+     photo: "grace.jpg"
    },
    {
      id: 104,
      name: "Katherine Johnson",
      phone: "(555) 535-0104",
      email: "katherine@example.com",
-     photo: "/avatars/katherine.jpg"
+     photo: "katherine.jpg"
    },
    {
      id: 105,
      name: "Donald the Duck",
      phone: "(555) 111-0105",
      email: "donald@example.com",
-     photo: "/avatars/donald.jpg"
+     photo: "donald.jpg"
    },
    {
      id: 7,
      name: "Clark Kent",
      phone: "(555) 888-0103",
      email: "clark@example.com",
-     photo: "/avatars/clark.jpg"
+     photo: "clark.jpg"
    },
    {
      id: 8,
      name: "Peter Griffin",
      phone: "(555) 555-0103",
      email: "griffin@example.com",
-     photo: "/avatars/peter.jpg"
+     photo: "peter.jpg"
    },
    {
      id: 9,
      name: "Brennan Lee Mulligan",
      phone: "(555) 666-0103",
      email: "lee@example.com",
-     photo: "/avatars/brennan.jpg"
+     photo: "brennan.jpg"
    },
    {
      id: 10,
      name: "Fabian Seacaster",
      phone: "(555) 999-0103",
      email: "fabian@example.com",
-     photo: "/avatars/fabian.jpg"
+     photo: "fabian.jpg"
    },
-    {
-        id: 110,
-        name: "Chungledown Bim",
-        phone: "(555) 789-0103",
-        email: "bim@example.com",
-        photo: "/avatars/bim.jpg"
+   {
+      id: 110,
+      name: "Chungledown Bim",
+      phone: "(555) 789-0103",
+      email: "bim@example.com",
+      photo: "bim.jpg"
     },
 ];
 
@@ -132,14 +143,14 @@ const App = () => {
             <li key={c.id} className="contacts__item">
               <article className="contact-card">
                 <img
-                className="contact-card__avatar"
-                src={c.photo || "/avatar.png"}
-                alt={`Portrait of ${c.name}`}
-                width="100"
-                height="100"
-                loading="fast"
-                onError={(e) => (e.currentTarget.src = "/avatar.png")}
+                  className="contact-card__avatar"
+                  src={avatarUrl(c.photo)}
+                  alt={`Portrait of ${c.name}`}
+                  width="100"
+                  height="100"
+                  loading="lazy"
                 />
+
 
 
 
@@ -214,3 +225,7 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
