@@ -2,7 +2,6 @@ import React from "react";
 
 const Pagination = ({ currentPage, totalPages, pageSize, onPageChange, onPageSizeChange }) => {
   if (!totalPages || totalPages <= 1) {
-    // still show control for page size if many results
     return (
       <div className="pagination">
         <div className="pagination__size">

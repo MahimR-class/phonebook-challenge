@@ -103,12 +103,10 @@ const App = () => {
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
   useEffect(() => {
-    // if filtering reduces pages, clamp current page
     if (currentPage > totalPages) setCurrentPage(totalPages);
   }, [currentPage, totalPages]);
 
   useEffect(() => {
-    // reset to first page when search query changes
     setCurrentPage(1);
   }, [query]);
 
@@ -157,7 +155,6 @@ const App = () => {
         <h2 id="contacts-heading">All The Weird Contacts</h2>
         <ul className="contacts__list">
           {contacts.map((contact, index) => {
-            // Use the provided loop style but only render the contact for the current page
             if (index !== currentPage - 1) return null;
 
             return (
