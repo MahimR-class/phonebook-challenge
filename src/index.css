@@ -27,19 +27,21 @@
   font-display: swap;
 }
 
+/* fonts */
 :root{
   --font-body: "Agmena", Georgia, Cambria, "Times New Roman", serif;
   --font-heading: "Agmena", Georgia, Cambria, "Times New Roman", serif;
 }
 
+/* colors */
 :root {
   --bg: #f8fafc;
   --fg: #000000;
   --muted: #9aa0a6;
   --border: #2b2b2e;
   --accent: #7c8cff;
+  --glass-hover: rgba(255,255,255,0.08); /* used in :hover below */
 }
-
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #ffffff;
@@ -47,60 +49,35 @@
     --muted: #6e6e73;
     --border: #e5e5ea;
     --accent: #3c5cff;
+    --glass-hover: rgba(0,0,0,0.04);
   }
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body,
-#root {
-    height: 100%;
-}
+html, body, #root { height: 100%; }
 
 body {
-    margin: 0;
-    font-family:
-        system-ui,
-        -apple-system,
-        Segoe UI,
-        Roboto,
-        Ubuntu,
-        Cantarell,
-        Noto Sans,
-        Helvetica,
-        Arial,
-        "Apple Color Emoji",
-        "Segoe UI Emoji";
-    color: var(--fg);
-    background: var(--bg);
-}
-
-a {
-    color: var(--accent);
-}
-
-button,
-input,
-select {
-    font: inherit;
-    color: inherit;
-}
-
-body{
   margin: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-body), system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--fg);
   background: var(--bg);
 }
 
+a { color: var(--accent); }
+
+button, input, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* headings */
 h1, h2, h3, .page__title, .contact-card__name{
   font-family: var(--font-heading);
   font-weight: 600; 
 }
 
+/* background image */
 body::before {
   content: "";
   position: fixed;
@@ -111,13 +88,60 @@ body::before {
   background-blend-mode: multiply;
 }
 
-html, body {
-  color: #ffc400; 
-}
+/* demo color override */
+html, body { color: #ffc400; }
 
+/* hover glass effect uses --glass-hover defined above */
 :where(.card, .contact, .contact-card, .list > li, .contacts > li):hover {
   background: var(--glass-hover);
   border-color: rgba(255,255,255,0.28);
 }
 
+/* -------- Loader styles -------- */
+.loader-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px; /* keeps the section stable while loading */
+}
 
+.loader-wrap img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+/* (Optional) If you want the loader to overlay the contacts area:
+.contacts { position: relative; min-height: 260px; }
+.loader-wrap { position: absolute; inset: 0; }
+*/
+
+.error-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+.error-wrap img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+.error-wrap .msg {
+  opacity: 0.85;
+}
+
+/* Inline validation */
+.input--invalid {
+  border: 1.5px solid #ff4d4f !important;
+  outline: none;
+}
+.error-text {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: #ff4d4f;
+}
